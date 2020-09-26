@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>List Group Example</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-3">
+    <form action="/listFile">
+        <label for="name">File name:</label><br>
+        <input type="text" id="name" name="nameSearch" placeholder="Input keysearch here" th:value="${nameSearch != null ? nameSearch : '' }"><br><br>
+
+        <label for="roles">Choose a role action:</label>
+
+        <select name="roleSearch" id="roles" >
+            <option th:each="role: ${roleAccesses}" th:value="${role.id}" th:text="${role.name}" th:if="${roleSearch != null}" th:checked="${role.id == roleSearch}"></option>
+        </select>
+
+        <input type="submit" value="Search">
+    </form>
+
+    <h2>List File view able</h2>
+
+    <table>
+        <tr>
+            <th>File name</th>
+            <th>Action</th>
+        </tr>
+        <tr th:each="fileDocument: ${allFileViewAble}">
+            <td th:text="${fileDocument.fileName}"></td>
+            <td><a th:href="${'/download/' + fileDocument.id}">Download</a> || <a th:href="${'/deleteFile/' + fileDocument.id}">Del</a></td>
+        </tr>
+    </table>
+</div>
+
+<div class="container mt-3">
+    <button onclick="location.href='/addFile'">Add File</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>
